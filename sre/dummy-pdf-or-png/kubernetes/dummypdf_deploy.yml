@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+   name: dummypdfpng
+   labels:
+           name: dummypdfpng
+   namespace: sretest
+spec:
+        replicas: 2
+        selector:
+                matchLabels:
+                        app: dummypdfpng
+        template:
+                metadata:
+                        labels:
+                                app: dummypdfpng
+                spec:
+                        containers:
+                                - name: dummypdfpng
+                                  image: kiyana11/sretest:dummy-pdf-or-png
+                                  ports:
+                                   - containerPort: 3000
+                                  imagePullPolicy: IfNotPresent
+                                  livenessProbe:
+                                        httpGet: 
+                                         path: /health
+                                         port: 3000
+                                         scheme: HTTP
+                                        initialDelaySeconds: 5
+                                        periodSeconds: 10
+                                        timeoutSeconds: 5
+                                  readinessProbe: 
+                                         httpGet:
+                                          path: /readiness
+                                          port: 3000
+                                          scheme: HTTP
+                                         initialDelaySeconds: 5
+                                         timeoutSeconds: 1      
