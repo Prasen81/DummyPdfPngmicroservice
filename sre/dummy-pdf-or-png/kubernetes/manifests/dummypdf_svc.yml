@@ -4,9 +4,9 @@ kind: Service
 metadata:
         name: dummy-pdf-or-png-svc
 spec:
-        type: LoadBalancer
+        type: NodePort
         ports:
-        - name: http
+        - protocol: TCP
           port: 9090
           targetPort: 3000
         selector:
