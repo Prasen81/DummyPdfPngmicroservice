@@ -4,7 +4,7 @@ kind: Deployment
 metadata: 
    name: dummypdfpng
    labels:
-           name: dummypdfpng
+           app: dummypdfpng
    namespace: sretest
 spec:
         replicas: 2
