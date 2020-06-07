@@ -1,0 +1,35 @@
+---
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata: 
+        name: Fluentd
+        labels:
+                tier: sretest
+                name: Fluentd
+        namespace: kube-system
+        spec:
+                selector:
+                        matchLabels:
+                                name: Fluentd
+                template:
+                        metadats:
+                                labels:
+                                        name: Fluentd
+                        spec:
+                                serviceAccountName: Fluentd
+                                containers:
+                                    - image: weaveworksdemos/log-server
+                                      name: Fluentd
+                                      env:
+                                          - name: fluentd_conf
+                                            value: elk.conf
+                                      volumeMounts:
+                                          - name: varlibdockercontainers
+                                            mountPath: /var/lib/docker/containers
+                                            readOnly: true
+                                volumes:
+                                  - name: varlibdockercontainers
+                                    hostpath:
+                                            path: /var/lib/docker/containers
+                                    nodeSelector: 
+                                            beta.kubernetes.io/os: linux
